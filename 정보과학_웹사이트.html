@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>정보과학 교과 소개</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #007aff;
+            --secondary-color: #5856d6;
+            --accent-color: #ff9500;
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --bg-primary: #000000;
+            --bg-secondary: #1a1a1a;
+            --bg-card: #2a2a2a;
+        }
+
+        [data-theme="light"] {
+            --text-primary: #000000;
+            --text-secondary: #666666;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f5;
+            --bg-card: #ffffff;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            background-size: 300% 300%;
+            animation: gradientShift 8s ease infinite;
+            opacity: 0.1;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 15px 0;
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 122, 255, 0.2);
+        }
+
+        .section {
+            padding: 100px 0;
+        }
+
+        .section h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--primary-color);
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 122, 255, 0.2);
+        }
+
+        .card h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .curriculum-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .curriculum-item {
+            margin: 20px 0;
+            padding: 15px;
+            border-left: 3px solid var(--primary-color);
+            background: rgba(0, 122, 255, 0.1);
+            border-radius: 5px;
+        }
+
+        .project-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .project-card:hover {
+            transform: scale(1.05);
+        }
+
+        .project-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .project-content {
+            padding: 20px;
+        }
+
+        .project-link {
+            display: inline-block;
+            margin-top: 15px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .project-link:hover {
+            color: var(--secondary-color);
+        }
+
+        .contact-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 80px 0;
+            margin-top: 50px;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 1s ease;
+        }
+
+        .algorithm-explanation {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+        .flowchart-container {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .flowchart-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .step-box {
+            padding: 15px 25px;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            min-width: 120px;
+            position: relative;
+        }
+
+        .step-box.start {
+            background: linear-gradient(45deg, #28a745, #20c997);
+        }
+
+        .step-box.process {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .step-box.decision {
+            background: linear-gradient(45deg, #ffc107, #fd7e14);
+        }
+
+        .step-box.end {
+            background: linear-gradient(45deg, #dc3545, #e83e8c);
+        }
+
+        .arrow {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin: 10px 0;
+        }
+
+        .algorithm-features {
+            margin-top: 20px;
+        }
+
+        .feature-item {
+            background: rgba(0, 122, 255, 0.1);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .application-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .application-card {
+            background: var(--bg-card);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .application-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .application-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tech-stack {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tech-tag {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .application-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .curriculum-connections ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .curriculum-connections li {
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(0, 122, 255, 0.1);
+            border-radius: 5px;
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .code-preview {
+            background: #1a1a1a;
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .code-snippet {
+            background: #000;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .code-snippet pre {
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        .project-image {
+            height: 120px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .project-icon {
+            font-size: 3rem;
+        }
+
+        .project-skills {
+            display: flex;
+            gap: 8px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .algorithm-explanation {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .application-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .application-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="animated-bg"></div>
+    
+    <header>
+        <nav class="container">
+            <div class="logo">정보과학</div>
+            <ul class="nav-links">
+                <li><a href="#home">홈</a></li>
+                <li><a href="#python">Python</a></li>
+                <li><a href="#curriculum">교육과정</a></li>
+                <li><a href="#algorithm-design">알고리즘 설계</a></li>
+                <li><a href="#curriculum-application">실무 적용</a></li>
+                <li><a href="#projects">프로젝트</a></li>
+                <li><a href="#contact">Q&A</a></li>
+            </ul>
+            <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>정보과학 교과 소개</h1>
+            <p>프로그래밍부터 알고리즘까지, 미래를 만드는 컴퓨터 과학의 세계</p>
+            <button class="cta-button" onclick="scrollToSection('python')">시작하기</button>
+        </div>
+    </section>
+
+    <section id="python" class="section">
+        <div class="container">
+            <h2>Python이란?</h2>
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>쉬운 문법</h3>
+                    <p>Python은 인간의 언어와 가장 가까운 프로그래밍 언어입니다. 직관적이고 읽기 쉬운 문법으로 초보자도 쉽게 배울 수 있습니다.</p>
+                </div>
+                <div class="card">
+                    <h3>다양한 활용</h3>
+                    <p>웹 개발, 인공지능, 데이터 분석, 게임 개발까지 다양한 분야에서 활용되는 범용 프로그래밍 언어입니다.</p>
+                </div>
+                <div class="card">
+                    <h3>풍부한 라이브러리</h3>
+                    <p>수많은 라이브러리와 프레임워크가 존재하여 복잡한 기능도 간단하게 구현할 수 있습니다.</p>
+                </div>
+            </div>
+            <div class="more-info" style="display: flex; justify-content: center; margin-top: 50px;">
+                <button class="cta-button" onclick="window.open('https://www.python.org/doc/essays/blurb/', '_blank')">세부 정보</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="curriculum" class="section">
+        <div class="container">
+            <h2>교육과정 소개</h2>
+            
+            <div class="curriculum-section">
+                <h3>I. 프로그래밍</h3>
+                <div class="curriculum-purpose" style="margin-top: 10px;">
+                    <h4>교육 목적</h4>
+                    <ul>
+                        <p>정보 교과에서 배운 프로그래밍 지식을 바탕으로 함수의 설계와 호출 방법을 학습하여 주어진 문제를 해결할 수 있도록 구성하였다. 특히 재귀 구조를 기반으로 재귀 호출을 활용한 프로그래밍을 깊이 있게 다루었다.</p>
+                    </ul>
+                </div>
+                <div class="curriculum-item">
+                    <h4>01. 함수</h4>
+                    <ul>
+                        <li>함수의 정의와 호출</li>
+                        <li>함수의 설계 (반환값, 매개변수, 지역 / 전역 변수)</li>
+                    </ul>
+                </div>
+                <div class="curriculum-item">
+                    <h4>02. 재귀 함수</h4>
+                    <ul>
+                        <li>재귀 함수의 정의와 호출</li>
+                        <li>재귀 함수의 설계</li>
+                        <li>반복 구조와 재귀 구조의 비교</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="curriculum-section">
+                <h3>II. 데이터 구조</h3>
+                <div class="curriculum-purpose" style="margin-top: 10px;">
+                    <h4>교육 목적</h4>
+                    <ul>
+                        <p>다양한 문제 상황을 선형 및 비선형 자료 구조로 구성하여 제시하였다. 제시한 자료 구조를 프로그래밍으로 구현하여 실생활 관련 문제를 효율적으로 해결할 수 있도록 하였다.</p>
+                    </ul>
+                </div>
+                <div class="curriculum-item">
+                    <h4>01. 선형 데이터 구조</h4>
+                    <ul>
+                        <li>큐(Queue)의 개념과 구현</li>
+                        <li>스택(Stack)의 개념과 구현</li>
+                    </ul>
+                </div>
+                <div class="curriculum-item">
+                    <h4>02. 비선형 데이터 구조</h4>
+                    <ul>
+                        <li>그래프(Graph)의 개념과 구현</li>
+                        <li>트리(Tree)의 개념과 구현</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="curriculum-section">
+                <h3>III. 알고리즘</h3>
+                <div class="curriculum-purpose" style="margin-top: 10px;">
+                    <h4>교육 목적</h4>
+                    <ul>
+                        <p>여러 학문 분야와 실생활 문제 등을 정확하고 효율적으로 해결하기 위한 최적의 알고리즘 설계 방법을 안내하였다. 또한, 실제 프로그래밍 과정을 통하여 알고리즘 설계 및 구현 능력을 익힐 수 있도록 구성하였다.</p>
+                    </ul>
+                </div>
+                <div class="curriculum-item">
+                    <h4>01. 알고리즘의 성능과 분석</h4>
+                    <ul>
+                        <li>알고리즘 복잡도와 시간 복잡도</li>
+                        <li>빅오 표기법과 알고리즘 비교</li>
+                    </ul>
+                </div>
+                <div class="curriculum-item">
+                    <h4>02. 탐색 기반 알고리즘</h4>
+                    <ul>
+                        <li>전체 탐색과 상태 공간 배제</li>
+                        <li>분기 한정법과 탐욕법</li>
+                    </ul>
+                </div>
+                <div class="curriculum-item">
+                    <h4>03. 관계 기반 알고리즘</h4>
+                    <ul>
+                        <li>분할 정복법</li>
+                        <li>동적 계획법</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="curriculum-section">
+                <h3>IV. 정보과학 프로젝트</h3>
+                <div class="curriculum-purpose" style="margin-top: 10px;">
+                    <h4>교육 목적</h4>
+                    <ul>
+                        <p>I, II, III단원에서 학습한 내용을 바탕으로 프로젝트 활동을 수행할 수 있도록 구성하였다. 다양한 상황에서 '문제 발견, 문제 분석, 알고리즘 설계, 프로그래밍 언어 구현'의 과정을 거쳐, 문제 해결 능력을 기르는 데 중점을 두었다.</p>
+                    </ul>
+                </div>
+                <div class="curriculum-item">
+                    <h4>컴퓨터 과학과 문제 해결</h4>
+                    <ul>
+                        <li>추상화, 알고리즘 설계, 자동화</li>
+                        <li>여행 계획 세우기 프로젝트</li>
+                        <li>8퍼즐 문제 해결하기</li>
+                        <li>지속가능 발전 프로젝트</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="curriculum-section">
+                <h3>고교학점제 운영에 관련 설명</h3>
+                <div class="curriculum-item">
+                    <h4>고교학점제에서 정보과학의 위치</h4>
+                    <p>일반 선택 과목</p>
+                </div>
+                <div class="curriculum-item">
+                    <h4>고교학점제와 정보과학의 연결점</h4>
+                    <ul>
+                        <li>자유로운 과목 선택: 진로에 따라 정보과학 관련 과목을 다양하게 선택 가능</li>
+                        <li>심화 학습 가능: 정보과학 → 프로그래밍 → 인공지능 등 순차적 이수 가능</li>
+                    </ul>
+                </div>
+                <div class="curriculum-item">
+                    <h4>평가와 이수 기준</h4>
+                    <ul>
+                        <li>정보과학은 일반적으로 성취평가제(수강 성적: A~E)로 평가</li>
+                        <li>1단원 = 50분 수업 x 17주, 보통 정보과학은 5단원 전후로 운영</li>
+                        <li>학기당 일정 학점 이상 이수 필수 → 누적 학점이 졸업 기준을 넘어야 졸업 가능</li>
+                    </ul>
+                </div>
+                <div class="curriculum-item">
+                    <h4>대학교별 정보과학 과목 반영 예시</h4>
+                    <ul>
+                        <li>서울대학교: 정량적 반영은 없으나 전공 관련 과목(정보, 프로그래밍 등) 이수와 세특 내용이 전공적합성 평가에 긍정적 영향을 미침</li>
+                        <li>고려대학교: 학생부 교과 전형에서 계열 적합성 기준으로 정보과학 과목 이수 시 가산점 또는 가중치 부여</li>
+                        <li>한양대학교(소프트웨어인재전형): 정보 및 프로그래밍 과목 이수와 성취도, 관련 활동(포트폴리오 등) 평가에 반영</li>
+                        <li>한국공학대학교: 학생부 교과 전형에서 정보 과목에 1.5~2.0의 높은 가중치 반영</li>
+                        <li>인하대학교: 자연계열 전형에서 수학·과학·정보 관련 과목 성적 중점 반영 + 전공 연계성 평가</li>
+                    </ul>
+                </div>
+            </div>   
+        </div>
+    </section>
+
+    <section id="algorithm-design" class="section">
+        <div class="container">
+            <h2>알고리즘 설계 방법</h2>
+            <div class="algorithm-explanation">
+                <div class="algorithm-visual">
+                    <div class="flowchart-container">
+                        <div class="flowchart-step">
+                            <div class="step-box start">문제 분석</div>
+                            <div class="arrow">↓</div>
+                        </div>
+                        <div class="flowchart-step">
+                            <div class="step-box process">입력 / 출력 정의</div>
+                            <div class="arrow">↓</div>
+                        </div>
+                        <div class="flowchart-step">
+                            <div class="step-box decision">조건 분기</div>
+                            <div class="arrow">↓</div>
+                        </div>
+                        <div class="flowchart-step">
+                            <div class="step-box process">처리 과정</div>
+                            <div class="arrow">↓</div>
+                        </div>
+                        <div class="flowchart-step">
+                            <div class="step-box end">결과 출력</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="algorithm-text">
+                    <h3>체계적인 문제 해결 과정</h3>
+                    <p>복잡한 문제를 단계적으로 분해하여 해결하는 방법을 배웁니다. 플로우차트와 의사코드를 활용하여 논리적 사고력을 기르고, 실제 코드로 구현하는 과정을 경험합니다.</p>
+                    <div class="algorithm-features">
+                        <div class="feature-item">
+                            <strong>추상화</strong>
+                            복잡한 문제를 단순화하여 핵심 요소만 추출
+                        </div>
+                        <div class="feature-item">
+                            <strong>분해</strong>
+                            큰 문제를 작은 하위 문제로 나누어 해결
+                        </div>
+                        <div class="feature-item">
+                            <strong>패턴 인식</strong>
+                            반복되는 패턴을 찾아 효율적으로 처리
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="algorithm-example" style="margin-top: 50px;">
+                <h3>알고리즘 설계 예시</h3>
+                <p>이 예시는 제가 개인 프로젝트를 진행하며 설계한 알고리즘입니다. 이를 통해 코드 작성의 틀을 잡고, 피드백이 필요한 부분을 빠르게 검토할 수 있습니다.</p>
+                <div class="cards-grid">
+                    <div class="card" style="display: flex; justify-content: center; align-items: center;">
+                        <img src="스크린샷 2025-07-09 오후 5.13.01.png" alt="알고리즘 설계 예시 1" style="border-radius: 16px; max-width: 500px;">
+                    </div>
+                    <div class="card" style="display: flex; justify-content: center; align-items: center;">
+                        <img src="스크린샷 2025-07-10 오전 8.56.26.png" alt="알고리즘 설계 예시 2" style="border-radius: 16px; max-width: 500px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="curriculum-application" class="section">
+        <div class="container">
+            <h2>교과과정 실무 적용</h2>
+            <div class="application-grid">
+                <div class="application-card">
+                    <div class="application-header">
+                        <h3>텔레그램 봇 개발</h3>
+                        <div class="tech-stack">
+                            <span class="tech-tag">API 활용</span>
+                            <span class="tech-tag">네트워크 통신</span>
+                            <span class="tech-tag">조건문 / 반복문</span>
+                        </div>
+                    </div>
+                    <div class="application-content">
+                        <div class="curriculum-connections">
+                            <h4>📚 교과과정 연계</h4>
+                            <ul>
+                                <li><strong>함수</strong>: 봇의 각 기능을 함수로 모듈화</li>
+                                <li><strong>조건문</strong>: 사용자 입력에 따른 분기 처리</li>
+                                <li><strong>반복문</strong>: 메시지 수신 대기 루프</li>
+                                <li><strong>자료구조</strong>: 사용자 데이터 관리를 위한 딕셔너리/리스트 활용</li>
+                            </ul>
+                        </div>
+                        <div class="code-preview">
+                            <h4>💻 핵심 구현 내용</h4>
+                            <div class="code-snippet">
+                                <pre>def handle_message(message):
+    if message.text == "/start":
+        send_welcome_message()
+    elif message.text == "/help":
+        send_help_message()
+    else:
+        process_user_input(message)</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="application-card">
+                    <div class="application-header">
+                        <h3>머신러닝 프로젝트</h3>
+                        <div class="tech-stack">
+                            <span class="tech-tag">데이터 분석</span>
+                            <span class="tech-tag">알고리즘</span>
+                            <span class="tech-tag">시각화</span>
+                        </div>
+                    </div>
+                    <div class="application-content">
+                        <div class="curriculum-connections">
+                            <h4>📚 교과과정 연계</h4>
+                            <ul>
+                                <li><strong>알고리즘 복잡도</strong>: 모델 학습 시간 분석</li>
+                                <li><strong>탐색 알고리즘</strong>: 최적 파라미터 탐색</li>
+                                <li><strong>분할 정복</strong>: 대용량 데이터 처리</li>
+                                <li><strong>동적 계획법</strong>: 최적화 문제 해결</li>
+                            </ul>
+                        </div>
+                        <div class="code-preview">
+                            <h4>💻 핵심 구현 내용</h4>
+                            <div class="code-snippet">
+                                <pre>def train_model(data):
+    # 데이터 전처리
+    X, y = preprocess_data(data)
+    
+    # 모델 학습
+    model = train_algorithm(X, y)
+    
+    # 결과 시각화
+    visualize_results(model)</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="section">
+        <div class="container">
+            <h2>만들 수 있는 프로젝트</h2>
+            <div class="project-showcase">
+                <div class="project-card">
+                    <div class="project-image">
+                        <div class="project-icon">🤖</div>
+                    </div>
+                    <div class="project-content">
+                        <h3>웹페이지 취약점 분석 AI</h3>
+                        <p>웹 페이지의 소스코드와 입력값을 분석하여 SQL Injection, XSS, CSRF 등 다양한 취약점을 자동으로 탐지하는 AI 시스템을 구축해보세요. 인공지능을 활용해 보안 위협을 사전에 감지하고 대응할 수 있는 지능형 보안 솔루션을 구현할 수 있습니다.</p>
+                        <div class="project-skills">
+                            <span class="skill-tag">NLP</span>
+                            <span class="skill-tag">API</span>
+                            <span class="skill-tag">봇 개발</span>
+                        </div>
+                        <a href="https://colab.research.google.com/drive/1T2A3Vn4u3lqaTjKJjykDgX7xtWKVpcV6?usp=sharing" class="project-link" target="_blank">프로젝트 보러가기 →</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">
+                        <div class="project-icon">📊</div>
+                    </div>
+                    <div class="project-content">
+                        <h3>딥러닝 데이터 분석</h3>
+                        <p>실제 데이터를 활용한 딥러닝 모델을 구축해보세요. 데이터 전처리부터 모델 훈련, 결과 시각화까지 전체 과정을 경험할 수 있습니다.</p>
+                        <div class="project-skills">
+                            <span class="skill-tag">머신러닝</span>
+                            <span class="skill-tag">데이터 분석</span>
+                            <span class="skill-tag">시각화</span>
+                        </div>
+                        <a href="https://colab.research.google.com/drive/15TuDPmOxOC2B-wqfYjzYClM6kAkFGN43?usp=sharing" class="project-link" target="_blank">프로젝트 보러가기 →</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">
+                        <div class="project-icon">🎮</div>
+                    </div>
+                    <div class="project-content">
+                        <h3>게임 개발 프로젝트</h3>
+                        <p>Python을 활용한 간단한 게임을 만들어보세요. 알고리즘과 자료구조를 실제로 적용하며 재미있는 프로그래밍을 경험할 수 있습니다.</p>
+                        <div class="project-skills">
+                            <span class="skill-tag">게임 개발</span>
+                            <span class="skill-tag">알고리즘</span>
+                            <span class="skill-tag">GUI</span>
+                        </div>
+                        <a href="https://colab.research.google.com/drive/1-9fGBT1PvptfDC_Lb1a_Klrz5x7ldUsE?usp=sharing" class="project-link" target="_blank">프로젝트 보러가기 →</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">
+                        <div class="project-icon">🌐</div>
+                    </div>
+                    <div class="project-content">
+                        <h3>웹 크롤링 프로젝트</h3>
+                        <p>웹사이트에서 데이터를 수집하고 분석하는 프로젝트입니다. 실시간 정보 수집과 데이터 시각화를 통해 유용한 인사이트를 얻을 수 있습니다.</p>
+                        <div class="project-skills">
+                            <span class="skill-tag">크롤링</span>
+                            <span class="skill-tag">데이터 수집</span>
+                            <span class="skill-tag">분석</span>
+                        </div>
+                        <a href="https://colab.research.google.com/drive/1SnWSzS5J3rjLhQht57xuOqPZNX_qsLzE?usp=sharing" class="project-link" target="_blank">프로젝트 보러가기 →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2>Q&A 및 문의</h2>
+            <p>궁금한 점이 있으시면 언제든지 연락주세요!</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <h3>제작자</h3>
+                    <p>20402 권다니엘</p>
+                </div>
+                <div class="contact-item">
+                    <h3>Instagram</h3>
+                    <a href="https://www.instagram.com/dzoe_08/" class="my ID" target="_blank" style="color:white;">@dzoe_08</a>
+                </div>
+                <div class="contact-item">
+                    <h3>Email</h3>
+                    <p>dzoek08@gmail.com</p>
+                </div>
+            </div>
+            <p style="margin-top: 30px;">더 자세한 정보는 진향옥 선생님과 이상옥 선생님께 문의하세요.</p>
+        </div>
+    </section>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const button = document.querySelector('.theme-toggle');
+            
+            if (body.getAttribute('data-theme') === 'light') {
+                body.removeAttribute('data-theme');
+                button.textContent = '🌙';
+            } else {
+                body.setAttribute('data-theme', 'light');
+                button.textContent = '☀️';
+            }
+        }
+
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            section.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Add scroll animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.card, .curriculum-section, .project-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Header background change on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(0, 0, 0, 0.95)';
+            } else {
+                header.style.background = 'rgba(0, 0, 0, 0.9)';
+            }
+        });
+    </script>
+</body>
+</html>
