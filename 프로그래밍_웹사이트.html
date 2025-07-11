@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale1.0">
+    <title>프로그래밍 교과 소개</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #007aff;
+            --secondary-color: #5856d6;
+            --accent-color: #ff9500;
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --bg-primary: #000000;
+            --bg-secondary: #1a1a1a;
+            --bg-card: #2a2a2a;
+        }
+
+        [data-theme="light"] {
+            --text-primary: #000000;
+            --text-secondary: #666666;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f5;
+            --bg-card: #ffffff;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            background-size: 300% 300%;
+            animation: gradientShift 8s ease infinite;
+            opacity: 0.1;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 15px 0;
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 122, 255, 0.2);
+        }
+
+        .section {
+            padding: 100px 0;
+        }
+
+        .section h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--primary-color);
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 122, 255, 0.2);
+        }
+
+        .card h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .curriculum-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .curriculum-item {
+            margin: 20px 0;
+            padding: 15px;
+            border-left: 3px solid var(--primary-color);
+            background: rgba(0, 122, 255, 0.1);
+            border-radius: 5px;
+        }
+
+        .project-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .project-card:hover {
+            transform: scale(1.05);
+        }
+
+        .project-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .project-content {
+            padding: 20px;
+        }
+
+        .project-link {
+            display: inline-block;
+            margin-top: 15px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .project-link:hover {
+            color: var(--secondary-color);
+        }
+
+        .contact-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 80px 0;
+            margin-top: 50px;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 1s ease;
+        }
+
+        .algorithm-explanation {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+        .flowchart-container {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .flowchart-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .step-box {
+            padding: 15px 25px;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            min-width: 120px;
+            position: relative;
+        }
+
+        .step-box.start {
+            background: linear-gradient(45deg, #28a745, #20c997);
+        }
+
+        .step-box.process {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .step-box.decision {
+            background: linear-gradient(45deg, #ffc107, #fd7e14);
+        }
+
+        .step-box.end {
+            background: linear-gradient(45deg, #dc3545, #e83e8c);
+        }
+
+        .arrow {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin: 10px 0;
+        }
+
+        .algorithm-features {
+            margin-top: 20px;
+        }
+
+        .feature-item {
+            background: rgba(0, 122, 255, 0.1);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .application-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .application-card {
+            background: var(--bg-card);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .application-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .application-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tech-stack {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tech-tag {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .application-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .curriculum-connections ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .curriculum-connections li {
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(0, 122, 255, 0.1);
+            border-radius: 5px;
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .code-preview {
+            background: #1a1a1a;
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .code-snippet {
+            background: #000;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .code-snippet pre {
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        .project-image {
+            height: 120px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .project-icon {
+            font-size: 3rem;
+        }
+
+        .project-skills {
+            display: flex;
+            gap: 8px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .algorithm-explanation {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .application-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .application-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="animated-bg"></div>
+    
+    <header>
+        <nav class="container">
+            <div class="logo">프로그래밍</div>
+            <ul class="nav-links">
+                <li><a href="#home">홈</a></li>
+                <li><a href="#c-cpp">C / C++</a></li>
+                <li><a href="#curriculum">교육과정</a></li>
+                <li><a href="#c-cpp-vs-python">C / C++와 python의 차이점</a></li>
+                <li><a href="#curriculum-application">실무 적용</a></li>
+                <li><a href="#projects">프로젝트</a></li>
+                <li><a href="#contact">Q&A</a></li>
+            </ul>
+            <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>프로그래밍 교과 소개</h1>
+            <p>프로그래밍부터 알고리즘까지, 미래를 만드는 컴퓨터 과학의 세계</p>
+            <button class="cta-button" onclick="scrollToSection('c-cpp')">시작하기</button>
+        </div>
+    </section>
+
+    <section id="c-cpp" class="section">
+        <div class="container">
+            <h2>C / C++ 이란?</h2>
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>시스템 프로그래밍의 핵심</h3>
+                    <p>C는 1972년에 만들어진 컴퓨터 언어로, 순서대로 명령을 실행하는 간단한 방식입니다. C++는 1983년에 C를 발전시켜 만든 언어로, 더 복잡한 프로그램을 쉽게 만들 수 있게 했습니다. 이 두 언어는 컴퓨터 운영체제, 전자기기, 게임 프로그램 같은 걸 만들 때 많이 쓰입니다.</p>
+                </div>
+                <div class="card">
+                    <h3>뛰어난 성능과 효율성</h3>
+                    <p>컴파일 언어로 실행 속도가 매우 빠르며, 메모리를 직접 제어할 수 있어 하드웨어 자원을 효율적으로 사용할 수 있습니다. 포인터를 통한 저수준 메모리 접근이 가능합니다.</p>
+                </div>
+                <div class="card">
+                    <h3>풍부한 기능과 라이브러리</h3>
+                    <p>C++는 STL(Standard Template Library)과 템플릿 시스템을 제공하며, 객체지향 프로그래밍, 제네릭 프로그래밍을 지원합니다. 수많은 라이브러리와 프레임워크가 존재합니다.</p>
+                </div>
+            </div>
+            <div class="more-info" style="display: flex; justify-content: center; margin-top: 50px;">
+                <button class="cta-button" onclick="window.open('https://cppreference.com/', '_blank')">세부 정보</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="curriculum" class="section">
+        <div class="container">
+            <h2>교육과정 소개</h2>
+            
+            <div class="curriculum-section">
+                <h3>I. 프로그래밍 개요</h3>
+                <div class="curriculum-purpose" style="margin-top: 10px;">
+                    <h4>교육 목적</h4>
+                    <ul>
+                        <p>이 단원에서는 프로그래밍의 개념과 중요성에 대해 알아볼 수 있다. 또한, C 언어가 왜 프로그래밍의 시작으 로 선택되는지, 그 이유와 중요성에 대해 이해할 수 있다.</p>
+                    </ul>
+                </div>
+                <div class="curriculum-item">
+                    <h4>01. 프로그래밍 언어의 종류와 특징</h4>
+                    <ul>
+                        <li style="margin-left: 10px;">프로그램의 이해</li>
+                        <li style="margin-left: 10px;">프로그램의 실행 환경</li>
+                        <li style="margin-left: 10px;">프로그래밍 언어</li>
+                    </ul>
+                </div>
+                <div class="curriculum-item">
+                    <h4>02. 프로그래밍의 절차</h4>
+                    <ul>
+                        <li style="margin-left: 10px;">프로그래밍 절차의 중요성</li>
+                        <li style="margin-left: 10px;">체계적인 프로그래밍의 절차</li>
+                    </ul>
+                </div>
+                <div class="curriculum-item">
+                    <h4>03. 알고리즘</h4>
+                    <ul>
+                        <li style="margin-left: 10px;">알고리즘의 이해</li>
+                        <li style="margin-left: 10px;">알고리즘 표현 방법</li>
+                        <li style="margin-left: 10px;">알고리즘 설계와 구현</li>
+                    </ul>
+                </div>
+                <div class="curriculum-item">
+                    <h4>04. 프로그램 개발 환경</h4>
+                    <ul>
+                        <li style="margin-left: 10px;">프로그램 개발 환경의 필요성</li>
+                        <li style="margin-left: 10px;">통합 개발 환경 사용</li>
+                        <li style="margin-left: 10px;">공유와 협업</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="curriculum-section">
+                <h3>II. 프로그래밍의 기초</h3>
+                <div class="curriculum-purpose" style="margin-top: 10px;">
+                    <h4>교육 목적</h4>
+                    <ul>
+                        <p>C 프로그램의 기본 문법과 데이터 유형, 연산자, 제어 구조 등을 다룬다. 여기서는 C 언어의 기본을 익히고 간단한 프로그램을 작성할 수 있는 기초를 다지고, 합수와 배열 등의 주제도 다루게 된다.</p>
+                    </ul>
+                </div>
+                <div class="curriculum-item">
+                    <h4>01. 변수와 자료형</h4>
+                    <ul>
+                        <li style="margin-left: 10px;">C 프로그래밍 이해</li>
+                        <li style="margin-left: 10px;">변수와 자료형</li>
+                        <li style="margin-left: 10px;">배열</li>
+                    </ul>
+                </div>
+                <div class="curriculum-item">
+                    <h4>02. 입력과 출력</h4>
+                    <ul>
+                        <li style="margin-left: 10px;">입출력 함수의 이해</li>
+                        <li style="margin-left: 10px;">출력 함수</li>
+                        <li style="margin-left: 10px;">입력 함수</li>
+                    </ul>
+                </div>
+                <div class="curriculum-item">
+                    <h4>03. 연산자</h4>
+                    <ul>
+                        <li style="margin-left: 10px;">연산자의 이해</li>
+                        <li style="margin-left: 10px;">다양한 연산자</li>
+                        <li style="margin-left: 10px;">연산자 우선순위</li>
+                    </ul>
+                </div>
+                <div class="curriculum-item">
+                    <h4>04. 제어문</h4>
+                    <ul>
+                        <li style="margin-left: 10px;">제어 구조</li>
+                        <li style="margin-left: 10px;">선택 구조의 종류</li>
+                        <li style="margin-left: 10px;">반복 구조의 필요성</li>
+                        <li style="margin-left: 10px;">반복 구조의 종류</li>
+                        <li style="margin-left: 10px;">break, continue</li>
+                        <li style="margin-left: 10px;">중첩 제어 구조</li>
+                    </ul>
+                </div>
+                <div class="curriculum-item">
+                    <h4>05. 함수</h4>
+                    <ul>
+                        <li style="margin-left: 10px;">함수의 이해</li>
+                        <li style="margin-left: 10px;">사용자 정의 함수</li>
+                        <li style="margin-left: 10px;">지역 변수와 전역 변수</li>
+                        <li style="margin-left: 10px;">재귀 함수</li>
+                        <li style="margin-left: 10px;">라이브러리 함수</li>
+                    </ul>
+                </div>
+                <div class="curriculum-item">
+                    <h4>06. 파일 처리</h4>
+                    <ul>
+                        <li style="margin-left: 10px;">파일</li>
+                        <li style="margin-left: 10px;">텍스트 파일 읽고 쓰기</li>
+                        <li style="margin-left: 10px;">이진 파일 읽고 쓰기</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="curriculum-section">
+                <h3>III. 프로그램 설계와 구현</h3>
+                <div class="curriculum-purpose" style="margin-top: 10px;">
+                    <h4>교육 목적</h4>
+                    <ul>
+                        <p>프로그램 설계와 구현프로그램을 설계하고 구현하는 방법에 대해 다룬다. 프로그래밍 과정에서 문제 해결 능력을 키우고, 프로그램을 효율적으로 작성하는 방법을 익혀 실제로 프로그램을 만들어보며 이론을 실전에 적용하는 경험을 쌓는다.</p>
+                    </ul>
+                </div>
+                <div class="curriculum-item">
+                    <h4>01. 프로그램 설계와 절차</h4>
+                    <ul>
+                        <li style="margin-left: 10px;">요구 사항 수집 및 분석</li>
+                        <li style="margin-left: 10px;">프로그램 설계</li>
+                        <li style="margin-left: 10px;">프로그램 구현</li>
+                        <li style="margin-left: 10px;">프로그램 테스트</li>
+                    </ul>
+                </div>
+                <div class="curriculum-item">
+                    <h4>02. 프로그래밍 실제</h4>
+                    <ul>
+                        <li style="margin-left: 10px;">컴퓨팅 사고력 키우기 - 기본</li>
+                        <li style="margin-left: 10px;">컴퓨팅 사고력 키우기 - 응용</li>
+                        <li style="margin-left: 10px;">프로그래밍 실전 도전하기</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="curriculum-section">
+                <h3>고교학점제 운영에 관련 설명</h3>
+                <div class="curriculum-item">
+                    <h4>고교학점제에서 프로그래밍의 위치</h4>
+                    <p>일반 선택 과목</p>
+                </div>
+                <div class="curriculum-item">
+                    <h4>고교학점제와 프로그래밍의 연결점</h4>
+                    <ul>
+                        <li style="margin-left: 10px;">진로 맞춤 선택: 소프트웨어, 인공지능, 정보보안 등의 진로에 따라 프로그래밍 과목을 선택 가능</li>
+                        <li style="margin-left: 10px;">심화 학습 연계: 정보 → 프로그래밍 → 인공지능 등의 과목을 순차적으로 이수하며 역량 강화 가능</li>
+                    </ul>
+                </div>
+                <div class="curriculum-item">
+                    <h4>평가와 이수 기준</h4>
+                    <ul>
+                        <li style="margin-left: 10px;">프로그래밍은 성취평가제(A~E 등급)로 평가</li>
+                        <li style="margin-left: 10px;">1단원 = 50분 수업 × 17주, 일반적으로 5단원 전후로 운영</li>
+                        <li style="margin-left: 10px;">학기당 일정 학점 이상 이수 필요, 누적 학점이 졸업 요건 충족에 필수</li>
+                    </ul>
+                </div>
+                <div class="curriculum-item">
+                    <h4>대학교별 프로그래밍 과목 반영 예시</h4>
+                    <ul>
+                        <li style="margin-left: 10px;">학생부 교과 전형: 일부 대학에서 프로그래밍 과목을 성적에 정량 반영하거나 가중치(1.5~2.0) 부여</li>
+                        <li style="margin-left: 10px;">학생부 종합 전형: 프로그래밍 과목 이수 여부, 세특 활동, 연계 과목 이수 등이 전공적합성 평가에 활용됨</li>
+                        <li style="margin-left: 10px;">특기자/소프트웨어 인재 전형: 프로그래밍 실력, 프로젝트, 대회 참여 등과 함께 과목 이수도 중요한 평가 요소</li>
+                        <li style="margin-left: 10px;">서울대, 한양대 등: 성적 직접 반영은 아니지만, 컴퓨터공학·SW학과 지원 시 전공 관심도 판단에 큰 영향</li>
+                        <li style="margin-left: 10px;">한국공학대, 인하대 등: 프로그래밍 과목 성적을 정량 반영하거나 계열 적합성 판단 기준으로 활용</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="c-cpp-vs-python" class="section">
+        <div class="container">
+            <h2>C / C++와 Python의 차이점</h2>
+
+            <div class="language-comparison" style="margin-bottom: 40px;">
+                <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                    <thead>
+                        <tr style="background-image: linear-gradient(to right, #007aff, #5856d6);">
+                            <th style="padding: 10px; border: 1px solid #ccc;">항목</th>
+                            <th style="padding: 10px; border: 1px solid #ccc;">C / C++</th>
+                            <th style="padding: 10px; border: 1px solid #ccc;">Python</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #ccc;">언어 유형</td>
+                            <td style="padding: 10px; border: 1px solid #ccc;">컴파일 언어(실행 전에 전체 번역)</td>
+                            <td style="padding: 10px; border: 1px solid #ccc;">인터프리터 언어(실행하면서 한 줄씩 번역)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #ccc;">실행 속도</td>
+                            <td style="padding: 10px; border: 1px solid #ccc;">매우 빠름</td>
+                            <td style="padding: 10px; border: 1px solid #ccc;">상대적으로 느림</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #ccc;">문법 복잡도</td>
+                            <td style="padding: 10px; border: 1px solid #ccc;">복잡하고 엄격함</td>
+                            <td style="padding: 10px; border: 1px solid #ccc;">간결하고 쉬움</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #ccc;">메모리 관리</td>
+                            <td style="padding: 10px; border: 1px solid #ccc;">직접 관리 필요</td>
+                            <td style="padding: 10px; border: 1px solid #ccc;">자동 가비지 컬렉션</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #ccc;">사용 분야</td>
+                            <td style="padding: 10px; border: 1px solid #ccc;">시스템, 임베디드, 게임엔진</td>
+                            <td style="padding: 10px; border: 1px solid #ccc;">AI, 데이터분석, 웹 개발</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p style="margin-top: 20px; font-style: italic;">
+                    C/C++는 성능이 중요할 때 사용되며, Python은 개발 속도와 생산성이 중요한 분야에 적합합니다.
+                </p>
+            </div>
+
+            <div class="algorithm-example" style="margin-top: 50px;">
+                <h3>C/C++와 Python의 Hello World 출력 예시</h3>
+                <p>예시를 통해 C/C++와 Python이 어떻게 다르게 코드를 작성하는지 알 수 있습니다.</p>
+                <div class="cards-grid" style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 30px;">
+                    <div class="card" style="flex: 1; min-width: 300px; border-radius: 12px; padding: 16px;">
+                        <h4 style="margin-bottom: 15px; text-align: center;">C/C++ 예시</h4>
+                        <pre style="background: #1e1e1e; color: #00ff00; padding: 16px; border-radius: 8px; font-family: 'Courier New', monospace; white-space: pre-wrap;">
+1 #include &lt;stdio.h&gt;
+2 
+3 int main() {
+4     printf("hello world");
+5     return 0;
+6 }
+            </pre>
+                        <div style="margin-top: 12px;">
+                            <strong>&lt;출력값&gt;</strong><br>
+                            <code style="color: #000000; background: #eee; padding: 6px 10px; border-radius: 6px; display: inline-block;">hello world</code>
+                        </div>
+                    </div>
+
+                    <div class="card" style="flex: 1; min-width: 300px; border-radius: 12px; padding: 16px;">
+                        <h4 style="margin-bottom: 15px; text-align: center;">Python 예시</h4>
+                        <pre style="background: #1e1e1e; color: #00ff00; padding: 16px; border-radius: 8px; font-family: 'Courier New', monospace; white-space: pre-wrap;">
+1 print("hello world")
+2
+3
+4
+5
+6
+            </pre>
+                        <div style="margin-top: 12px;">
+                            <strong>&lt;출력값&gt;</strong><br>
+                            <code style="color: #000000; background: #eee; padding: 6px 10px; border-radius: 6px; display: inline-block;">hello world</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="curriculum-application" class="section">
+        <div class="container">
+            <h2>교과과정 실무 적용</h2>
+            <div class="application-grid">
+                <div class="application-card fade-in">
+                    <div class="application-header">
+                        <h3>LoRa 무선통신 프로젝트</h3>
+                        <div class="tech-stack">
+                            <span class="tech-tag">무선통신</span>
+                            <span class="tech-tag">센서 데이터</span>
+                            <span class="tech-tag">실시간 모니터링</span>
+                            <span class="tech-tag">IoT</span>
+                        </div>
+                    </div>
+                    <div class="application-content">
+                        <div class="curriculum-connections">
+                            <h4>📚 교과과정 연계</h4>
+                            <ul>
+                                <li><strong>함수</strong>: 센서 데이터 읽기, LoRa 통신 함수 모듈화</li>
+                                <li><strong>조건문</strong>: 센서 값 유효성 검증 및 오류 처리</li>
+                                <li><strong>반복문</strong>: 주기적 데이터 수집 및 전송 루프</li>
+                                <li><strong>자료구조</strong>: 센서 데이터 배열 관리 및 문자열 처리</li>
+                                <li><strong>네트워크</strong>: WiFi 연결 및 웹 서버 통신</li>
+                            </ul>
+                        </div>
+                        <div class="code-preview">
+                            <h4 style="color: #ffffff;">💻 핵심 구현 내용</h4>
+                            <div class="code-snippet">
+                                <pre>// DHT11 센서 데이터 읽기
+float humidity = dht.readHumidity();
+float temperature = dht.readTemperature();
+
+// LoRa 통신으로 데이터 전송
+String data = String(temperature) + "@" + String(humidity);
+Serial2.println("AT+SEND=" + lora_RX_address + "," + 
+                String(data.length()) + "," + data);
+
+// 수신된 데이터 파싱 및 Google Sheets 업로드
+if (Process_LoRa_Received_String(receivedString)) {
+    sendtoSheets(); // 성공 시 클라우드 전송
+}</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="application-card fade-in">
+                    <div class="application-header">
+                        <h3>C언어 미로 게임</h3>
+                        <div class="tech-stack">
+                            <span class="tech-tag">게임 개발</span>
+                            <span class="tech-tag">알고리즘</span>
+                            <span class="tech-tag">사용자 인터페이스</span>
+                            <span class="tech-tag">터미널 제어</span>
+                        </div>
+                    </div>
+                    <div class="application-content">
+                        <div class="curriculum-connections">
+                            <h4>📚 교과과정 연계</h4>
+                            <ul>
+                                <li><strong>2차원 배열</strong>: 미로 맵 데이터 구조 설계</li>
+                                <li><strong>함수</strong>: 게임 로직 모듈화 (이동, 출력, 충돌 검사)</li>
+                                <li><strong>조건문</strong>: 플레이어 이동 가능성 판단</li>
+                                <li><strong>반복문</strong>: 게임 메인 루프 및 맵 출력</li>
+                                <li><strong>포인터</strong>: 효율적인 메모리 관리</li>
+                            </ul>
+                        </div>
+                        <div class="code-preview">
+                            <h4 style="color: #ffffff;">💻 핵심 구현 내용</h4>
+                            <div class="code-snippet">
+                                <pre>// 플레이어 이동 함수
+void movePlayer(int dx, int dy) {
+    int newX = playerX + dx;
+    int newY = playerY + dy;
+    
+    // 이동 가능성 검사
+    if (map[newY][newX] == ' ' || map[newY][newX] == 'E') {
+        map[playerY][playerX] = ' ';  // 이전 위치 비우기
+        playerX = newX;
+        playerY = newY;
+        if (map[newY][newX] != 'E') {
+            map[playerY][playerX] = '@';  // 새 위치 표시
+        }
+    }
+}</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="section">
+        <div class="container">
+            <h2>실제 구현된 프로젝트</h2>
+            <div class="project-showcase">
+                <div class="project-card fade-in">
+                    <div class="project-image">
+                        <div class="project-icon">📡</div>
+                    </div>
+                    <div class="project-content">
+                        <h3>LoRa 무선통신 Gateway</h3>
+                        <p>ESP32를 활용한 LoRa 무선통신 게이트웨이입니다. 여러 센서 노드로부터 온습도 데이터를 수신하고, WiFi를 통해 Google Sheets로 실시간 데이터를 전송합니다. OLED 디스플레이를 통해 수신 상태를 실시간으로 확인할 수 있습니다.</p>
+                        <div class="project-skills">
+                            <span class="skill-tag">ESP32</span>
+                            <span class="skill-tag">LoRa</span>
+                            <span class="skill-tag">WiFi</span>
+                            <span class="skill-tag">OLED</span>
+                            <span class="skill-tag">Google Sheets</span>
+                        </div>
+                        <a href="https://www.mycompiler.io/view/IFXglwsOGQj" class="project-link" target="_blank">소스코드 보기 →</a>
+                    </div>
+                </div>
+
+                <div class="project-card fade-in">
+                    <div class="project-image">
+                        <div class="project-icon">🌡️</div>
+                    </div>
+                    <div class="project-content">
+                        <h3>LoRa 센서 노드</h3>
+                        <p>DHT11 센서를 이용한 온습도 측정 노드입니다. 측정된 데이터를 OLED 화면에 표시하고, LoRa 통신을 통해 게이트웨이로 전송합니다. 저전력 설계로 배터리 구동이 가능하며, 60초 간격으로 데이터를 전송합니다.</p>
+                        <div class="project-skills">
+                            <span class="skill-tag">DHT11</span>
+                            <span class="skill-tag">LoRa</span>
+                            <span class="skill-tag">OLED</span>
+                            <span class="skill-tag">저전력</span>
+                        </div>
+                        <a href="https://www.mycompiler.io/view/0wopRPXgOxF" class="project-link" target="_blank">소스코드 보기 →</a>
+                    </div>
+                </div>
+
+                <div class="project-card fade-in">
+                    <div class="project-image">
+                        <div class="project-icon">🎮</div>
+                    </div>
+                    <div class="project-content">
+                        <h3>터미널 미로 게임</h3>
+                        <p>C언어로 구현된 콘솔 기반 미로 게임입니다. 101x83 크기의 복잡한 미로를 탐험하며 출구를 찾는 게임으로, 키보드 입력을 통해 플레이어를 조작합니다. 터미널 제어 기술과 게임 로직을 학습할 수 있습니다.</p>
+                        <div class="project-skills">
+                            <span class="skill-tag">C언어</span>
+                            <span class="skill-tag">터미널 제어</span>
+                            <span class="skill-tag">게임 로직</span>
+                            <span class="skill-tag">사용자 입력</span>
+                        </div>
+                        <a href="https://www.mycompiler.io/view/0pTWsCWDvC6" class="project-link" target="_blank">소스코드 보기 →</a>
+                    </div>
+                </div>
+
+                <div class="project-card fade-in">
+                    <div class="project-image">
+                        <div class="project-icon">🔗</div>
+                    </div>
+                    <div class="project-content">
+                        <h3>통합 IoT 시스템</h3>
+                        <p>위의 세 프로젝트를 결합한 완전한 IoT 시스템입니다. 다수의 센서 노드가 LoRa 통신으로 데이터를 전송하고, 게이트웨이에서 클라우드로 업로드합니다. 실시간 모니터링과 데이터 분석이 가능한 종합 시스템입니다.</p>
+                        <div class="project-skills">
+                            <span class="skill-tag">IoT</span>
+                            <span class="skill-tag">클라우드</span>
+                            <span class="skill-tag">실시간 모니터링</span>
+                            <span class="skill-tag">데이터 분석</span>
+                        </div>
+                        <a href="#" class="project-link" onclick="alert('통합 시스템 구축 가이드를 준비 중입니다!')">통합 가이드 보기 →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2>Q&A 및 문의</h2>
+            <p>궁금한 점이 있으시면 언제든지 연락주세요!</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <h3>제작자</h3>
+                    <p>20402 권다니엘</p>
+                </div>
+                <div class="contact-item">
+                    <h3>Instagram</h3>
+                    <a href="https://www.instagram.com/dzoe_08/" class="my ID" target="_blank" style="color:white;">@dzoe_08</a>
+                </div>
+                <div class="contact-item">
+                    <h3>Email</h3>
+                    <p>dzoek08@gmail.com</p>
+                </div>
+            </div>
+            <p style="margin-top: 30px;">더 자세한 정보는 진향옥 선생님과 이상옥 선생님께 문의하세요.</p>
+        </div>
+    </section>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const button = document.querySelector('.theme-toggle');
+            
+            if (body.getAttribute('data-theme') === 'light') {
+                body.removeAttribute('data-theme');
+                button.textContent = '🌙';
+            } else {
+                body.setAttribute('data-theme', 'light');
+                button.textContent = '☀️';
+            }
+        }
+
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            section.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Add scroll animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.card, .curriculum-section, .project-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Header background change on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(0, 0, 0, 0.95)';
+            } else {
+                header.style.background = 'rgba(0, 0, 0, 0.9)';
+            }
+        });
+    </script>
+</body>
+</html>
